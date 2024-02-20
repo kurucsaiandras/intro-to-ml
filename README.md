@@ -6,7 +6,11 @@ Task 1: A description of your data set
   - Rasmus
 
 Task 2:
+
 Descriptions of attributes and data issues
   - Andris
+
 Summary statistics
   - Rasmus
+
+Task 3:
