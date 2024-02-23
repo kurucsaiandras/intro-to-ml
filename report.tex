@@ -1,0 +1,94 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{longtable} % For multi-page tables
+
+\title{dtu-machine-learning report}
+\author{rcdane }
+\date{February 2024}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+\section{Notes}
+dataset:
+https://www.kaggle.com/datasets/kumarajarshi/life-expectancy-who/data
+
+regression:
+Life Expectancy
+
+classification:
+Developed/Developing (binary)
+
+
+quick answers to questions:
+\begin{enumerate}
+    \item Explain what your data is about. I.e. what is the overall problem of
+interest?\\
+    The dataset is from the WHO. The focus is on how different attributes affect life expectancy. There is a focus on immunization.\\
+    \item Provide a reference to where you obtained the data.\\ 
+    https://www.kaggle.com/datasets/kumarajarshi/life-expectancy-who/data \\
+    Need to find better link \\
+    \item Summarize previous analysis of the data.\\
+    Insert summary\\
+    \item
+\end{enumerate}
+
+% THIS IS THE START OF ANDRIS' SECTION -------
+
+\newlength{\rowsep}
+\setlength{\rowsep}{8pt} % For separating rows in the table
+
+\pagebreak
+\section{The attributes of the data}
+
+The dataset has 22 properties, which are listed below in Table 1.
+
+\begin{longtable}[htbp]{p{8cm}cc}
+  \textbf{\textit{Name and description}} & \textbf{\textit{Numerical Type}} & \textbf{\textit{Type}} \\[8pt]
+  \hline
+  \endfirsthead
+  
+  \multicolumn{3}{c}%
+  {{\tablename\ \thetable{} -- continued from previous page}} \\
+  \hline
+  \textbf{\textit{Name and description}} & \textbf{\textit{Numerical Type}} & \textbf{\textit{Type}} \\[8pt]
+  \hline
+  \endhead
+  
+  \hline \multicolumn{3}{r}{{Continued on next page}} \\ \hline
+  \endfoot
+  
+  \hline
+  \endlastfoot
+
+  \textbf{Country} & Discrete & Nominal \\ Country in which the measurement took place. \\[\rowsep]
+  \textbf{Year} & Discrete & Interval \\ Year in which the measurement took place. \\[\rowsep]
+  \textbf{Status} & Discrete & Nominal \\ Indicating if the country is Developed or Developing. \\[\rowsep]
+  \textbf{Life expectancy}  & Continuous & Ratio \\ Given as age in years. \\[\rowsep]
+  \textbf{Adult Mortality} & Discrete & Ratio \\ Number of adult deaths between 15 and 60 years per 1000 population, for both sexes. \\[\rowsep]
+  \textbf{Infant deaths} & Discrete & Ratio \\ Number of infant deaths per 1000 population. \\[\rowsep]
+  \textbf{Alcohol} & Continuous & Ratio \\ Alcohol consumption per capita(15+), in litres of pure alcohol. \\[\rowsep]
+  \textbf{Percentage expenditure} & Continuous & Ratio \\ Expenditure on health as a percentage of Gross Domestic Product per capita (\%). \\[\rowsep]
+  \textbf{Hepatitis} B & Discrete & Ratio \\ HepB immunization coverage among 1-year-olds (\%). \\[\rowsep]
+  \textbf{Measles} & Discrete & Ratio \\ Number of reported cases per 1000 population. \\[\rowsep]
+  \textbf{BMI} & Continuous & Interval \\ Average Body Mass Index of entire population. \\[\rowsep]
+  \textbf{Under-five deaths} & Discrete & Ratio \\ Number of under-five deaths per 1000 population. \\[\rowsep]
+  \textbf{Polio} & Discrete & Ratio \\ Polio (Pol3) immunization coverage among 1-year-olds (\%). \\[\rowsep]
+  \textbf{Total expenditure} & Continuous & Ratio \\ General government expenditure on health as a percentage of total government expenditure (\%). \\[\rowsep]
+  \textbf{Diphtheria} & Discrete & Ratio \\ Diphtheria tetanus toxoid and pertussis (DTP3) immunization coverage among 1-year-olds (\%). \\[\rowsep]
+  \textbf{HIV/AIDS} & Continuous & Ratio \\ Deaths per 1000 live births HIV/AIDS (0-4 years). \\[\rowsep]
+  \textbf{GDP} & Continuous & Ratio \\ Gross Domestic Product per capita in USD. \\[\rowsep]
+  \textbf{Population} & Discrete & Ratio \\ Population of the country. \\[\rowsep]
+  \textbf{Thinness 10 - 19} & Continuous & Ratio \\ Prevalence of thinness among children and adolescents from Age 10 to 19 (\%). \\[\rowsep]
+  \textbf{Thinness 5 - 9} & Continuous & Ratio \\ Prevalence of thinness among children from Age 5 to 9 (\%). \\[\rowsep]
+  \textbf{Income comp. of resources} & Continuous & Ratio \\ Human Development Index in terms of income composition of resources (index ranging from 0 to 1). \\[\rowsep]
+  \textbf{Schooling} & Continuous & Ratio \\ Number of years of Schooling. \\[\rowsep]
+  \caption{The properties of the dataset} \label{tab:my_table} \\
+\end{longtable}
+
+% THIS IS THE END OF ANDRIS' SECTION -------
+
+\end{document}
