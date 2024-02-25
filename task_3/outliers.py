@@ -10,7 +10,7 @@ dataset = pd.read_csv("Life-Expectancy-Data.csv")
 #dataset.head()
 
 continuous_attributes = [
-                                    'Year', 'Infant_deaths', 'Under_five_deaths', 'Adult_mortality', 'Alcohol_consumption', 
+                                     'Infant_deaths', 'Under_five_deaths', 'Adult_mortality', 'Alcohol_consumption', 
                                     'Hepatitis_B', 'Measles', 'BMI', 'Polio', 'Diphtheria', 'Incidents_HIV', 'GDP_per_capita', 
                                     'Population_mln', 'Thinness_ten_nineteen_years', 'Thinness_five_nine_years', 'Schooling', 
                                     'Life_expectancy'
@@ -19,8 +19,7 @@ continuous_attributes = [
 
 
 continuous_data = dataset[continuous_attributes]
-#I removed Population from the data plus all the categorical attributes because the population cannot have outliers.
-X = continuous_data.drop('Population_mln', axis=1)
+X = dataset[continuous_attributes]
 # Rename the columns to fit in the plot
 X = X.rename(columns={
     'Thinness_ten_nineteen_years': 'Thinness_10/19_y/O',
