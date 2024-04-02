@@ -73,7 +73,7 @@ device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 print(device)
 
 # Path to save output to
-path = 'Assignment_2/output/ANN/'
+path = 'Assignment_2/output/ANN-regr/'
 
 dataset = pd.read_csv("Life-Expectancy-Data.csv")
 attributeNames = np.asarray(dataset.columns)
@@ -92,7 +92,7 @@ ANNs = []
 input_size = X.shape[1]
 hidden_size = 40
 output_size = 1
-num_of_hidden = [1, 3, 5]
+num_of_hidden = [1, 3, 5, 7]
 for h in num_of_hidden:
     ANNs.append(ANN(input_size, hidden_size, output_size, h))
 
