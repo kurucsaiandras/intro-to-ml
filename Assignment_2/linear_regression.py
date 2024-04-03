@@ -5,81 +5,80 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import ColumnTransformer
 import numpy as np
 import matplotlib.pyplot as plt
-
+from sklearn.pipeline import Pipeline
+from sklearn.metrics import mean_squared_error
 
 # Load dataset
-data = pd.read_csv('intro-to-ml/Life-Expectancy-Data.csv')
+data = pd.read_csv('Life-Expectancy-Data.csv')
 
-data_transformed = data.drop(columns=['Country'])
+# Drop the 'Country' column
+data = data.drop(['Country'], axis=1)
 
-# Define the columns for transformations
-categorical_features = ['Region']
-numeric_features = data_transformed.columns.drop(['Region', 'Life_expectancy'])
+# Target Life Expectancy
+X = data.drop('Life_expectancy', axis=1)
+y = data['Life_expectancy']
 
-# Create transformers for the pipeline
-numeric_transformer = StandardScaler()
-categorical_transformer = OneHotEncoder(drop='first')  # Drop first to avoid dummy variable trap
+# one-of-K encoding of Region and standardization of numerical features
+# Identify numerical columns (excluding 'Region' and 'Year' as Year will be treated as a categorical due to its nature in this context)
+numerical_cols = X.select_dtypes(include=['int64', 'float64']).columns.tolist()
 
-# Combine transformers into a preprocessor
-preprocessor = ColumnTransformer(
-    transformers=[
-        ('num', numeric_transformer, numeric_features),
-        ('cat', categorical_transformer, categorical_features)
-    ])
+# Pipeline for numerical features
+numerical = Pipeline([
+    ('std_scaler', StandardScaler())
+])
+
+# Complete preprocessing pipeline
+transformer = ColumnTransformer([
+    ('num', numerical, numerical_cols),
+    ('cat', OneHotEncoder(), ['Region'])
+])
 
 # Apply transformations
-X_transformed = preprocessor.fit_transform(data_transformed.drop(columns=['Life_expectancy']))
-y = data_transformed['Life_expectancy']
+X_normalized = transformer.fit_transform(X)
 
-# Convert transformed X back to a DataFrame for better readability
-column_names = list(numeric_features) + \
-               list(preprocessor.named_transformers_['cat'].get_feature_names_out(categorical_features))
-
-X_transformed_df = pd.DataFrame(X_transformed, columns=column_names)
-
-##########################################
-#b.2
+# Define a range of lambda values
 lambda_values = np.logspace(-4, 4, 50)
 
-# K-Fold cross-validation setup
-kf = KFold(n_splits=10, shuffle=True, random_state=42)
+# Placeholder for storing cross-validation scores
+cv_scores = []
 
-# Store the average MSE for each value of lambda
-avg_mse_scores = []
+# Perform 10-fold cross-validation for each value of lambda (alpha)
+for alpha in lambda_values:
+    ridge = Ridge(alpha=alpha)
+    scores = cross_val_score(ridge, X_normalized, y, scoring='neg_mean_squared_error', cv=10)
+    rmse = np.sqrt(-scores)
+    cv_scores.append(rmse.mean())
 
-for lambda_value in lambda_values:
-    model = Ridge(alpha=lambda_value)
-    
-    # Negative MSE scores, because cross_val_score returns negative values for MSE (the higher, the better)
-    mse_scores = cross_val_score(model, X_transformed, y, cv=kf, scoring='neg_mean_squared_error')
-    
-    # Convert back to positive MSE and calculate the average
-    avg_mse_scores.append(-np.mean(mse_scores))
+# Find the lambda value with the minimum average RMSE
+min_error = np.min(cv_scores)
+optimal_lambda = lambda_values[np.argmin(cv_scores)]
 
-# Find the lambda value that minimizes the MSE
-optimal_lambda = lambda_values[np.argmin(avg_mse_scores)]
-min_mse = min(avg_mse_scores)
+print(optimal_lambda)
 
-optimal_lambda, min_mse
-# plt.figure(figsize=(10, 6))
-# plt.semilogx(lambda_values, avg_mse_scores, marker='o', linestyle='-', color='b')
-# plt.xlabel('Lambda (Regularization strength)')
-# plt.ylabel('Mean Squared Error (Generalization Error)')
-# plt.title('Generalization Error vs. Regularization Strength')
-# plt.axvline(x=optimal_lambda, color='r', linestyle='--', label=f'Optimal λ = {optimal_lambda:.2f}')
-# plt.legend()
-# plt.grid(True)
-# plt.show()
+# Plotting the generalization error (RMSE) as a function of lambda
+plt.figure(figsize=(10, 6))
+plt.plot(lambda_values, cv_scores, marker='o', linestyle='-', color='blue', label='RMSE per Lambda')
+plt.axvline(x=optimal_lambda, color='red', linestyle='--', label=f'Optimal Lambda = {optimal_lambda:.2f}')
+plt.xscale('log')
+plt.xlabel('Lambda (Regularization Strength)')
+plt.ylabel('Estimated Generalization Error (RMSE)')
+plt.title('Generalization Error as a Function of Lambda in Ridge Regression')
+plt.legend()
+plt.grid(True)
+plt.show()
 
-##################################
-#a.3
-# Train the Ridge regression model with the optimal lambda value
-model_optimal = Ridge(alpha=optimal_lambda)
-model_optimal.fit(X_transformed, y)
 
-# Get the model's coefficients (weights) and the intercept
-weights = model_optimal.coef_
-intercept = model_optimal.intercept_
+# Fit the Ridge Regression model with the optimal lambda value
+ridge_optimal = Ridge(alpha=optimal_lambda)
+ridge_optimal.fit(X_normalized, y)
 
-# Display the weights and the intercept
-print(weights, intercept)
+# Extract the coefficients
+coeff = ridge_optimal.coef_
+feature_names = numerical_cols + list(transformer.named_transformers_['cat'].get_feature_names_out())
+# Create a DataFrame to display feature names and their corresponding coefficients
+coef_df = pd.DataFrame(data={'Feature': feature_names, 'Coefficient': coeff})
+coef_df.sort_values(by='Coefficient', key=abs, ascending=False).reset_index(drop=True)
+
+print(coef_df)
+
+
