@@ -79,9 +79,11 @@ path = 'Assignment_2/output/ANN-class/'
 
 dataset = pd.read_csv("Life-Expectancy-Data.csv")
 attributeNames = np.asarray(dataset.columns)
-X = dataset.drop(["Economy_status_Developed", "Economy_status_Developing", "Country"], axis=1)
-# One hot key encode Region
-X = pd.get_dummies(X, dtype=float).values
+X = dataset.drop(["Economy_status_Developed", "Economy_status_Developing", 
+                  "Country", "GDP_per_capita", "Life_expectancy",
+                  "Hepatitis_B","Infant_deaths", 
+                  "Region"], axis=1).values
+
 # The property we want to predict
 y = dataset["Economy_status_Developed"].values
 
@@ -91,7 +93,7 @@ binary_columns = [col for col in range(X.shape[1]) if len(np.unique(X[:,col])) =
 # Generate ANN models with different number of hidden layers
 ANNs = []
 input_size = X.shape[1]
-hidden_size = 10
+hidden_size = 20
 output_size = 1
 num_of_hidden = [1, 3, 5, 7]
 for h in num_of_hidden:
