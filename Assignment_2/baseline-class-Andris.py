@@ -21,12 +21,11 @@ path = 'Assignment_2/output/baseline-class/'
 
 dataset = pd.read_csv("Life-Expectancy-Data.csv")
 attributeNames = np.asarray(dataset.columns)
-# Dropping country because it would generate a lot of attributes
-### NOTE: Rasmus will drop more columns here probably
-X = dataset.drop(["Economy_status_Developed", "Economy_status_Developing", "Country"], axis=1)
 
-# One hot key encode Region
-X = pd.get_dummies(X, dtype=float).values
+X = dataset.drop(["Economy_status_Developed", "Economy_status_Developing", 
+                  "Country", "GDP_per_capita", "Life_expectancy",
+                  "Hepatitis_B","Infant_deaths", 
+                  "Region"], axis=1).values
 
 # The property we want to predict
 y = dataset["Economy_status_Developed"].values
