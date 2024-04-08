@@ -49,7 +49,7 @@ models = []
 for p in lambdas:
     model = LogisticRegression(penalty="l2",solver="lbfgs",max_iter=10000, C=1/p, random_state=42)
 
-    models.append(model) ### TODO: create the model with parameter p
+    models.append(model) 
 
 # Outer Cross validation
 K_o = 10
