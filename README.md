@@ -15,3 +15,7 @@ DISCUSSION
 P1 - Leo
 P2 - Rasmus
 P3 - Andris
+
+Rasmus : 1, 4
+Leo: 2, 5
+Andris: 3, 6
