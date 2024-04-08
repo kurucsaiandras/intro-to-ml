@@ -1,12 +1,11 @@
 import pandas as pd
-from sklearn.model_selection import KFold, cross_val_score
+from sklearn.model_selection import cross_val_score
 from sklearn.linear_model import Ridge
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import ColumnTransformer
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.pipeline import Pipeline
-from sklearn.metrics import mean_squared_error
 
 # Load dataset
 data = pd.read_csv('Life-Expectancy-Data.csv')
