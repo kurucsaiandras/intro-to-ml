@@ -41,4 +41,22 @@ def compare_models(model_1, model_2, alpha):
 
     return z_L, z_hat, z_U, p
 
+print('Baseline errors:')
+print(np.load(root + '/baseline-regr/E_gen_o.npy'))
+print()
+
+print('ANN errors:')
+print(np.load(root + '/ANN-regr/E_gen_o.npy'))
+print('ANN hiddens:')
+print(np.load(root + '/ANN-regr/nums_of_hidden.npy'))
+print()
+
+print('Linear errors:')
+print(np.load(root + '/linear-regr/E_gen_o.npy'))
+print('Linear lambdas:')
+print(np.load(root + '/linear-regr/optimal_lambdas.npy'))
+print()
+
 print(compare_models('ANN-regr', 'baseline-regr', 0.05))
+print(compare_models('linear-regr', 'baseline-regr', 0.05))
+print(compare_models('linear-regr', 'ANN-regr', 0.05))
