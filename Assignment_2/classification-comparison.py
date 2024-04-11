@@ -30,6 +30,8 @@ def compare_models(model_1, model_2, alpha):
         print('Invalid data: the two true arrays are not the same.')
         return
     
+    print("Comparing A: ", model_1, " and B: ", model_2)
+
     e1_true = (y_tru_1 == y_est_1)
     e2_true = (y_tru_2 == y_est_2)
 
@@ -55,6 +57,12 @@ def compare_models(model_1, model_2, alpha):
     z_U = interval[1] * 2 - 1
     p = 2*stats.binom.cdf(min(n12,n21),n= n12 + n21, p=0.5)
 
+    
+
     return z_L, acc_diff, z_U, p
 
-print(compare_models('Logistic-class', 'ANN-class', 0.05))
+LB, z, UB, p = compare_models('Logistic-class', 'baseline-class', 0.05)
+
+print(f'Confidence interval: ({LB:.5f}, {UB:.5f})')
+print(f'Estimated difference: {z:.5f}')
+print(f"p-value: {p}")
